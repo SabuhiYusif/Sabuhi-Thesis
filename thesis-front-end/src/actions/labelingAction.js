@@ -23,7 +23,7 @@ export const labelLog = (fileName, labelingMethod, attrName, attrValue, greater,
         formData.append("attrValue", attrValue);
         formData.append("greater", greater);
         formData.append("smaller", smaller);
-        const res = await axios.post("http://localhost:8080/labelling", formData, {
+        const res = await axios.post("/labelling", formData, {
             headers: {
                 "Content-Type": "application/json",
             }

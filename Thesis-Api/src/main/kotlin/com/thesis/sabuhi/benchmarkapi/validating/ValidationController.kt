@@ -8,6 +8,8 @@ import com.thesis.sabuhi.benchmarkapi.extensions.generateResultsFileName
 import com.thesis.sabuhi.benchmarkapi.extensions.getOriginalFileName
 import com.thesis.sabuhi.benchmarkapi.files.FileService
 import com.thesis.sabuhi.benchmarkapi.files.FileStats
+import com.thesis.sabuhi.benchmarkapi.validating.services.ValidationDetails
+import com.thesis.sabuhi.benchmarkapi.validating.services.ValidationService
 import org.json.JSONArray
 import org.json.JSONObject
 import org.slf4j.LoggerFactory
@@ -31,42 +33,33 @@ import javax.validation.Valid
 @RestController
 class ValidationController(
     private val resultsToJsonClient: ResultsToJsonClient,
-    private val fileService: FileService
+    private val fileService: FileService,
+    private val validationService: ValidationService
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
 
     @PostMapping
-    fun validate(@RequestBody @Valid request: ValidationRequest): Map<String, String> = with(request) {
+    fun validate(@RequestBody @Valid request: ValidationRequest): ResponseEntity<Map<String, String>> = with(request) {
         log.debug("Evaluating $fileName...")
-        val (kValue, splitPercentage) = splitValues()
+        val (kValue, splitPercentage) = try {
+            splitValues()
+        } catch (e: IllegalArgumentException) {
+            return ResponseEntity(mapOf("error" to "Feature group not selected"), HttpStatus.BAD_REQUEST)
+        }
         val originalFileName = fileName.getOriginalFileName()
-
-        val path = "python3 ${ROOT_PATH}benchmarks.py $splitPercentage $originalFileName.xes ${payload.toLower()} $kValue $classifier $maxDepth $minSamples $coverageThreshold"
-        log.debug("Execute validation process in path $path")
-
-        val executable = Runtime.getRuntime().exec(path)
-        val stdInput = BufferedReader(InputStreamReader(executable.inputStream))
-        val stdError = BufferedReader(InputStreamReader(executable.errorStream))
-
-        var line: String?
-
-        val rawResults = StringBuilder()
-        while (stdInput.readLine().also { line = it } != null) {
-            rawResults.append(line.toString().trim() + "\n")
-            println("NORMAL " + line.toString().trim())
-            log.debug("NORMAL " + line.toString().trim())
-
-        }
-
+        val details = ValidationDetails(
+            splitPercentage,
+            originalFileName,
+            payload,
+            kValue,
+            classifier,
+            maxDepth,
+            minSamples,
+            coverageThreshold
+        )
+        val (rawResults, errors) = validationService.runValidation(details)
         val results = configureResults(kValue, splitPercentage, rawResults)
-
-        val errors = mutableListOf<String>()
-        while (stdError.readLine().also { line = it } != null) {
-            errors.add(line.toString().trim())
-            println("ERRORS " + line.toString().trim())
-            log.debug("ERRORS " + line.toString().trim())
-        }
 
         if (errors.isNotEmpty() && results != null && results.isEmpty) handleError(errors.last())
 
@@ -76,7 +69,7 @@ class ValidationController(
 
         appendResultsFile(resultFileName)
 
-        return mapOf(fileName to resultFileName)
+        return ResponseEntity(mapOf(fileName to resultFileName), HttpStatus.OK)
     }
 
     @PostMapping("/get-results")
@@ -117,8 +110,6 @@ class ValidationController(
 
         return FileStats(events.reduce { acc, i -> acc + i }, cases.reduce { acc, i -> acc + i })
     }
-
-    private fun Payload.toLower() = this.name.toLowerCase()
 
     private fun handleError(error: String) {
         when (error) {
@@ -164,7 +155,7 @@ class ValidationController(
             firstTwo.matches(Regex("[0-9]k_?")) -> {
                 kValue1 = fileName.substring(0, 1)
             }
-            else -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid log file, file cannot be validated")
+            else -> throw IllegalArgumentException()
         }
         return Pair(kValue1, splitPercentage1)
     }

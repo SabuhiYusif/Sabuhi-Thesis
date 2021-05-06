@@ -8,7 +8,7 @@ export const getFullStats = (fileName, payload, classifier, maxDepth, minSamples
     showProgressBar(dispatch, 'VALIDATING')
 
     try {
-        const res = await axios.post("http://localhost:8080",
+        const res = await axios.post("/",
             {
                 fileName: fileName,
                 payload: payload,
@@ -24,7 +24,7 @@ export const getFullStats = (fileName, payload, classifier, maxDepth, minSamples
             payload: res.data
         })
 
-        const res2 = await axios.post("http://localhost:8080/get-results", { fileName: Object.values(resultFile)[0] });
+        const res2 = await axios.post("/get-results", { fileName: Object.values(resultFile)[0] });
 
         dispatch({
             type: GET_STATS,
@@ -52,7 +52,7 @@ export const getResults = (resultFile) => async dispatch => {
     showProgressBar(dispatch, 'VALIDATING')
 
     try {
-        const res = await axios.post("http://localhost:8080/get-results", { fileName: Object.values(resultFile)[0] });
+        const res = await axios.post("/get-results", { fileName: Object.values(resultFile)[0] });
         console.log(res)
         dispatch({
             type: GET_STATS,
@@ -78,7 +78,7 @@ export const getInitialStats = (file) => async dispatch => {
         let formData = new FormData();
 
         formData.append("file", file);
-        const res = await axios.post("http://localhost:8080/file-stats", formData, {
+        const res = await axios.post("/file-stats", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             }

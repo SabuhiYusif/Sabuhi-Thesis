@@ -7,7 +7,7 @@ export const downloadLog = (fileName) => async dispatch => {
     let formData = new FormData();
 
     formData.append("fileName", fileName);
-    const res = await axios.post("http://localhost:8080/download", formData, {
+    const res = await axios.post("/download", formData, {
         responseType: 'blob',
     });
 
@@ -21,7 +21,7 @@ export const downloadLog = (fileName) => async dispatch => {
 
 export const downloadSettingsLog = () => async dispatch => {
 
-    const res = await axios.post("http://localhost:8080/download-settings", {
+    const res = await axios.post("/download-settings", {
         responseType: 'blob',
     });
 

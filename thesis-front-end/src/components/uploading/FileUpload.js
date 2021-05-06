@@ -14,6 +14,7 @@ import { GET_FILES } from '../../actions/types';
 import InitialStats from './InitialStats';
 import { fetchAllFiles } from '../../actions/filesActions';
 import { currentFileDispatcher } from '../../helpers/currentFileDispatcher'
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     submitButton: {
@@ -94,6 +95,12 @@ function FileUpload() {
                     title={"Upload a log file"}
                 >
                 </Header>
+                <br></br>
+                {errors.error &&
+                    <Alert
+                        severity="error">{errors.error}
+                    </Alert>
+                }
                 <br></br>
                 <Typography paragraph>
                     Only .xes files are supported at the moment

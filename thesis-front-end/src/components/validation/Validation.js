@@ -118,7 +118,6 @@ function Validation() {
     };
 
     const handleFeatureChange = (event) => {
-        console.log(currentFile)
         let value = event.target.value
         if (value === "basic") {
             setFeatures(basicFeatures)
@@ -170,7 +169,6 @@ function Validation() {
                         severity="error">{errors.error}
                     </Alert>
                 }
-
                 <br></br>
                 <FeatureSelection
                     handleFeatureChecks={handleFeatureChecks}

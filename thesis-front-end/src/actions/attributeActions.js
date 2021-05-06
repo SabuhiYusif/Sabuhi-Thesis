@@ -10,7 +10,7 @@ export const getAttrNamesOfLog = (file, labelingMethod) => async dispatch => {
 
         formData.append("file", file);
         formData.append("labelingMethod", labelingMethod.toUpperCase())
-        const res = await axios.post("http://localhost:8080/attributes-names", formData, {
+        const res = await axios.post("/attributes-names", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             }
@@ -37,7 +37,7 @@ export const getAttrValuesOfLog = (file, attributeKey) => async dispatch => {
 
         formData.append("file", file);
         formData.append("attributeKey", attributeKey)
-        const res = await axios.post("http://localhost:8080/attributes-values", formData, {
+        const res = await axios.post("/attributes-values", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             }
@@ -62,10 +62,9 @@ export const fetchEventAttrNames = (fileName) => async dispatch => {
     try {
         let formData = new FormData();
 
-        console.log("==============")
         console.log(fileName)
         formData.append("fileName", fileName);
-        const res = await axios.get("http://localhost:8080/get-event-attributes", {
+        const res = await axios.get("/get-event-attributes", {
             params: {
                 "fileName": fileName
             }
