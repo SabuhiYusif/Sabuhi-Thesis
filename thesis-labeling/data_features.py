@@ -4,6 +4,8 @@ import sys
 import pm4py
 from pm4py.util import xes_constants as xes
 
+from constants import PATH
+
 
 def get_all_event_attributes_from_log(log):
     """
@@ -55,8 +57,7 @@ def get_all_event_attributes_values_from_log(log, attrName):
 
 if __name__ == "__main__":
     file_name = sys.argv[1]
-    log = pm4py.read_xes(
-        "/home/sabuhi/Thesis/devianceminingthesis/DevianceMiningPipeline/logs/" + file_name)
+    log = pm4py.read_xes(PATH + "logs/" + file_name)
 
     event_attributes = get_all_event_attributes_from_log(log)
     filtered = [x for x in event_attributes if x != 'concept:name' and x != 'time:timestamp']

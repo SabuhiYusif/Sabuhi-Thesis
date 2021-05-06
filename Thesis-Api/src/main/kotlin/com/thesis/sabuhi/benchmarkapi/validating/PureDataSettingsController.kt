@@ -1,5 +1,6 @@
 package com.thesis.sabuhi.benchmarkapi.validating
 
+import com.thesis.sabuhi.benchmarkapi.ROOT_PATH
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -18,7 +19,7 @@ class PureDataSettingsController {
     @PostMapping("write-to-settings")
     fun writeToSettings(@RequestBody body: SettingsRequest) {
         val file = File("settings.cfg")
-        val fileToWrite = File("/home/sabuhi/Thesis/devianceminingthesis/DevianceMiningPipeline/settings.cfg")
+        val fileToWrite = File("${ROOT_PATH}settings.cfg")
         val newLine = System.getProperty("line.separator")
 
         val scanner = Scanner(FileInputStream(file))

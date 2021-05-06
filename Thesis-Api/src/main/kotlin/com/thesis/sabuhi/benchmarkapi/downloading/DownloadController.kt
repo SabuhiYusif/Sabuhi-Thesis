@@ -19,7 +19,7 @@ class DownloadController {
     fun download(fileName: String): ByteArray? {
         return try {
             // Change path if location is different
-            val path = "/home/sabuhi/Thesis/devianceminingthesis/DevianceMiningPipeline/logs/$fileName"
+            val path = "${ROOT_PATH}logs/$fileName"
             val file = File(path.trim())
             val resource = FileInputStream(file)
 

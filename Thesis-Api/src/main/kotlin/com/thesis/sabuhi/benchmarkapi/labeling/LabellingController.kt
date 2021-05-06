@@ -1,5 +1,6 @@
 package com.thesis.sabuhi.benchmarkapi.labeling
 
+import com.thesis.sabuhi.benchmarkapi.HELPER_ROOT_PATH
 import com.thesis.sabuhi.benchmarkapi.ROOT_PATH
 import com.thesis.sabuhi.benchmarkapi.files.FileService
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -24,7 +25,7 @@ class LabellingController(private val fileService: FileService) {
                  smaller: Boolean
     ): Map<String, String> {
         var s: String?
-        val path = "python3 /home/sabuhi/PycharmProjects/scientificProject/main.py "
+        val path = "python3 ${HELPER_ROOT_PATH}main.py "
 
         val attrNameWithDashes = attrName.replace(" ", "-")
         val attrValueWithDashes = attrValue.replace(" ", "-")

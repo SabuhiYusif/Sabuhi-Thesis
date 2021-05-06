@@ -149,7 +149,7 @@ if __name__ == "__main__":
     attr_name = ' '.join(map(str, attr_name_separated))
     value = ' '.join(map(str, value_separated))
 
-    log = pm4py.read_xes("/home/sabuhi/Thesis/devianceminingthesis/DevianceMiningPipeline/logs/" + file_name)
+    log = pm4py.read_xes(PATH + "logs/" + file_name)
 
     # event_stream = pm4py.convert_to_event_stream(log)
     # sorted_event = func.sort_(lambda e: e['time:timestamp'], event_stream)

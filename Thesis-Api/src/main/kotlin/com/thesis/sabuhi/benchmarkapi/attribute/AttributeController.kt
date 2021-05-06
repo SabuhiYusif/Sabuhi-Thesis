@@ -2,6 +2,7 @@ package com.thesis.sabuhi.benchmarkapi.attribute
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.thesis.sabuhi.benchmarkapi.HELPER_ROOT_PATH
 import com.thesis.sabuhi.benchmarkapi.labeling.LabelingMethod
 import org.springframework.core.io.support.ResourcePatternResolver
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -17,7 +18,7 @@ class AttributeController(private val resourcePatternResolver: ResourcePatternRe
     @PostMapping("attributes-names")
     fun getAttributeNames(file: String, labelingMethod: LabelingMethod): Set<String> {
         var s: String?
-        val executable = "python3 /home/sabuhi/PycharmProjects/scientificProject/attribute_names.py " + file + " " + labelingMethod.name.toLowerCase()
+        val executable = "python3 ${HELPER_ROOT_PATH}attribute_names.py " + file + " " + labelingMethod.name.toLowerCase()
         val attributes = Runtime.getRuntime()
             .exec(executable)
         println(executable)
@@ -42,7 +43,7 @@ class AttributeController(private val resourcePatternResolver: ResourcePatternRe
 
         val attrNameWithDashes = attributeKey.replace(" ", "-")
         val executable =
-            "python3 /home/sabuhi/PycharmProjects/scientificProject/attribute_values.py " + file + " " + attrNameWithDashes
+            "python3 ${HELPER_ROOT_PATH}attribute_values.py " + file + " " + attrNameWithDashes
 
         println(executable)
         val attributes = Runtime.getRuntime().exec(executable)

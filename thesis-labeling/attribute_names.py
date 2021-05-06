@@ -6,6 +6,8 @@ from pm4py.util import xes_constants as xes
 import sys
 from pm4py.algo.filtering.log.attributes import attributes_filter
 
+from constants import PATH
+
 
 def get_all_trace_attributes_from_log(log):
     """
@@ -64,7 +66,7 @@ def get_all_temporal_attributes(attr_keys):
 if __name__ == "__main__":
     file_name = sys.argv[1]
     labelingMethod = sys.argv[2]
-    log = pm4py.read_xes("/home/sabuhi/Thesis/devianceminingthesis/DevianceMiningPipeline/logs/" + file_name)
+    log = pm4py.read_xes(PATH + "logs/" + file_name)
     if labelingMethod == 'numerical':
         allKeys = list(get_all_trace_attributes_from_log(log))
         print(json.dumps(get_all_numerical_attributes(allKeys)))

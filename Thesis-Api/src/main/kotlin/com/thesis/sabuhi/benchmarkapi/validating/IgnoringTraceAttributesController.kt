@@ -2,6 +2,8 @@ package com.thesis.sabuhi.benchmarkapi.validating
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.thesis.sabuhi.benchmarkapi.HELPER_ROOT_PATH
+import com.thesis.sabuhi.benchmarkapi.ROOT_PATH
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -27,7 +29,7 @@ class IgnoringTraceAttributesController {
 
     private fun writeToSettingsFile(attributesToBeIgnored: List<String>) {
         val defaultTemplate = File("settings.cfg")
-        val fileToWrite = File("/home/sabuhi/Thesis/devianceminingthesis/DevianceMiningPipeline/sepsis_settings.cfg")
+        val fileToWrite = File("${ROOT_PATH}settings.cfg")
         val newLine = System.getProperty("line.separator")
 
         val scanner = Scanner(FileInputStream(defaultTemplate))
@@ -51,7 +53,7 @@ class IgnoringTraceAttributesController {
 
     private fun getIgnoredAttributes(fileName: String): List<String> {
         var s: String?
-        val executable = "python3 /home/sabuhi/PycharmProjects/scientificProject/ignoring_traces.py $fileName"
+        val executable = "python3 ${HELPER_ROOT_PATH}ignoring_traces.py $fileName"
         val attributes = Runtime.getRuntime()
             .exec(executable)
         println(executable)

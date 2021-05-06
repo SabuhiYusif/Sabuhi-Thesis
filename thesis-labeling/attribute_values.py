@@ -4,6 +4,8 @@ from datetime import datetime, date
 import pm4py
 import sys
 
+from constants import PATH
+
 
 def get_trace_attribute_values(log, attribute_key, parameters=None):
     """
@@ -55,5 +57,5 @@ if __name__ == "__main__":
     # for argument in sys.argv[2:]:
     #     attr_name += argument + " "
 
-    log = pm4py.read_xes("/home/sabuhi/Thesis/devianceminingthesis/DevianceMiningPipeline/logs/" + file_name)
+    log = pm4py.read_xes(PATH + "logs/" + file_name)
     print(json.dumps(list(get_trace_attribute_values(log, attr_name.strip())), default=json_serial))

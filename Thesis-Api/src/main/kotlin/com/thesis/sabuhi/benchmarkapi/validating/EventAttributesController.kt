@@ -2,6 +2,7 @@ package com.thesis.sabuhi.benchmarkapi.validating
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.thesis.sabuhi.benchmarkapi.HELPER_ROOT_PATH
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -15,7 +16,7 @@ class EventAttributesController {
     @GetMapping("get-event-attributes")
     fun getEventAttributes(fileName: String) : Any {
         var s: String?
-        val executable = "python3 /home/sabuhi/PycharmProjects/scientificProject/data_features.py $fileName"
+        val executable = "python3 ${HELPER_ROOT_PATH}data_features.py $fileName"
         val attributes = Runtime.getRuntime()
             .exec(executable)
         println(executable)

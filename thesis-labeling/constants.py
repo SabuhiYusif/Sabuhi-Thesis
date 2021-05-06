@@ -1,1 +1,1 @@
-PATH = "/home/sabuhi/Thesis/devianceminingthesis/DevianceMiningPipeline/"
+PATH = "/home/ubuntu/thesis-joonas/devianceminingthesis/DevianceMiningPipeline/"
