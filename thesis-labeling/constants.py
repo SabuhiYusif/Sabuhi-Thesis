@@ -1,0 +1,1 @@
+PATH = "/home/sabuhi/Thesis/devianceminingthesis/DevianceMiningPipeline/"

@@ -1,0 +1,12 @@
+export const GET_ERRORS = "GET_ERRORS";
+export const GET_STATS = "GET_STATS";
+export const GET_ATTR_NAMES = "GET_ATTR_NAMES";
+export const GET_ATTR_VALUES = "GET_ATTR_VALUES";
+export const GET_INITIAL_STATS = "GET_INITIAL_STATS";
+export const GET_FILES = "GET_FILES";
+export const GET_ALL_FILES = "GET_ALL_FILES";
+export const SET_LABELING_METHOD = "SET_LABELING_METHOD";
+export const REQUEST_COMPLETED = "REQUEST_COMPLETED";
+export const SUCCESS_MESSAGE = "SUCCESS_MESSAGE";
+export const GET_EVENT_ATTRS = "GET_EVENT_ATTRS";
+export const CURRENT_FILE = "CURRENT_FILE";
