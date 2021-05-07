@@ -7,7 +7,7 @@ import { GET_ALL_FILES, GET_ERRORS } from "./types";
 export const fetchAllFiles = (pageName) => async dispatch => {
     try {
         showProgressBar(dispatch, 'VALIDATING')
-        const res = await axios.get("/get-all-files", {
+        const res = await axios.get("api/get-all-files", {
             params: {
                 "page": pageName
             }

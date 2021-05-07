@@ -1,4 +1,4 @@
-import { CURRENT_FILE, GET_FILES, SET_LABELING_METHOD} from "./types";
+import { CURRENT_FILE, GET_FILES, SET_LABELING_METHOD } from "./types";
 import axios from "axios";
 import { hideProgressBar } from "../components/progressBar/hideProgressBar";
 import { showSuccess } from "../components/alerts/showSuccess";
@@ -15,19 +15,16 @@ const service = 'LABELING'
 export const labelLog = (fileName, labelingMethod, attrName, attrValue, greater, smaller) => async dispatch => {
     showProgressBar(dispatch, service)
     try {
-        let formData = new FormData();
-
-        formData.append("file", fileName);
-        formData.append("labelingMethod", labelingMethod);
-        formData.append("attrName", attrName);
-        formData.append("attrValue", attrValue);
-        formData.append("greater", greater);
-        formData.append("smaller", smaller);
-        const res = await axios.post("/labelling", formData, {
-            headers: {
-                "Content-Type": "application/json",
+        const res = await axios.post("api/labeling",
+            {
+                fileName: fileName,
+                labelingMethod: labelingMethod,
+                attrName: attrName,
+                attrValue: attrValue,
+                greater: greater,
+                smaller: smaller
             }
-        }); 
+        );
 
         dispatch({
             type: GET_FILES,

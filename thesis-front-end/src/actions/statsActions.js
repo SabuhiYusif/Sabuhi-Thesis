@@ -8,7 +8,7 @@ export const getFullStats = (fileName, payload, classifier, maxDepth, minSamples
     showProgressBar(dispatch, 'VALIDATING')
 
     try {
-        const res = await axios.post("/",
+        const res = await axios.post("api/evaluate",
             {
                 fileName: fileName,
                 payload: payload,
@@ -24,7 +24,7 @@ export const getFullStats = (fileName, payload, classifier, maxDepth, minSamples
             payload: res.data
         })
 
-        const res2 = await axios.post("/get-results", { fileName: Object.values(resultFile)[0] });
+        const res2 = await axios.post("api/get-results", { fileName: Object.values(resultFile)[0] });
 
         dispatch({
             type: GET_STATS,
@@ -52,15 +52,19 @@ export const getResults = (resultFile) => async dispatch => {
     showProgressBar(dispatch, 'VALIDATING')
 
     try {
-        const res = await axios.post("/get-results", { fileName: Object.values(resultFile)[0] });
+        const res = await axios.get("api/get-results", {
+            params: {
+                "fileName": Object.values(resultFile)[0]
+            }
+        });
         console.log(res)
         dispatch({
             type: GET_STATS,
             payload: res.data
         })
-        // if (res.data[1].length !== 0) {
-        //     showSuccess(dispatch, "Evaluation completed successfully!", "VALIDATING")
-        // }
+        if (res.data[1].length !== 0) {
+            showSuccess(dispatch, "Evaluation completed successfully!", "VALIDATING")
+        }
         hideProgressBar(dispatch)
     } catch (err) {
         hideProgressBar(dispatch)
@@ -78,7 +82,7 @@ export const getInitialStats = (file) => async dispatch => {
         let formData = new FormData();
 
         formData.append("file", file);
-        const res = await axios.post("/file-stats", formData, {
+        const res = await axios.post("api/file-stats", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             }

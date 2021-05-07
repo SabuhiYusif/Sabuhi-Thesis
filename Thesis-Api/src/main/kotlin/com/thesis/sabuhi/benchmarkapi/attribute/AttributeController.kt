@@ -2,64 +2,28 @@ package com.thesis.sabuhi.benchmarkapi.attribute
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.thesis.sabuhi.benchmarkapi.HELPER_ROOT_PATH
-import com.thesis.sabuhi.benchmarkapi.labeling.LabelingMethod
-import org.springframework.core.io.support.ResourcePatternResolver
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.io.BufferedReader
-import java.io.InputStreamReader
 
 @RestController
 @CrossOrigin
-class AttributeController(private val resourcePatternResolver: ResourcePatternResolver) {
+@RequestMapping("api/")
+class AttributeController(private val attributeService: AttributeService) {
 
     @PostMapping("attributes-names")
-    fun getAttributeNames(file: String, labelingMethod: LabelingMethod): Set<String> {
-        var s: String?
-        val executable = "python3 ${HELPER_ROOT_PATH}attribute_names.py " + file + " " + labelingMethod.name.toLowerCase()
-        val attributes = Runtime.getRuntime()
-            .exec(executable)
-        println(executable)
+    fun getAttributeNames(@RequestBody request: AttributeNameRequest): Set<String> {
+        val rawResults = attributeService.getAttributeNames(request)
 
-        val stdInput = BufferedReader(InputStreamReader(attributes.inputStream))
-
-        val stats = StringBuilder()
-        while (stdInput.readLine().also { s = it } != null) {
-            val ss = s.toString().trim() + "\n"
-            stats.append(ss)
-
-            println(ss)
-        }
-
-        print(stats.toString())
-        return jacksonObjectMapper().readValue(stats.toString())
+        return jacksonObjectMapper().readValue(rawResults)
     }
 
     @PostMapping("attributes-values")
-    fun getAttributeValues(file: String, attributeKey: String): Set<String> {
-        var s: String?
+    fun getAttributeValues(@RequestBody request: AttributeValueRequest): Set<String> {
+        val rawResults = attributeService.getAttributeValues(request)
 
-        val attrNameWithDashes = attributeKey.replace(" ", "-")
-        val executable =
-            "python3 ${HELPER_ROOT_PATH}attribute_values.py " + file + " " + attrNameWithDashes
-
-        println(executable)
-        val attributes = Runtime.getRuntime().exec(executable)
-
-        val stdInput = BufferedReader(InputStreamReader(attributes.inputStream))
-
-        val stats = StringBuilder()
-        while (stdInput.readLine().also { s = it } != null) {
-            val ss = s.toString().trim() + "\n"
-            stats.append(ss)
-
-            println(ss)
-        }
-
-        print(stats.toString())
-
-        return jacksonObjectMapper().readValue(stats.toString())
+        return jacksonObjectMapper().readValue(rawResults)
     }
 }

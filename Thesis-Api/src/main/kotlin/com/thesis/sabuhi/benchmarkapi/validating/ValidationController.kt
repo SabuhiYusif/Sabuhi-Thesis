@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
@@ -31,6 +32,7 @@ import javax.validation.Valid
 
 @CrossOrigin
 @RestController
+@RequestMapping("api/")
 class ValidationController(
     private val resultsToJsonClient: ResultsToJsonClient,
     private val fileService: FileService,
@@ -39,7 +41,7 @@ class ValidationController(
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    @PostMapping
+    @PostMapping("evaluate")
     fun validate(@RequestBody @Valid request: ValidationRequest): ResponseEntity<Map<String, String>> = with(request) {
         log.debug("Evaluating $fileName...")
         val (kValue, splitPercentage) = try {
@@ -59,7 +61,7 @@ class ValidationController(
             coverageThreshold
         )
         val (rawResults, errors) = validationService.runValidation(details)
-        val results = configureResults(kValue, splitPercentage, rawResults)
+        val results = configureResults(details, rawResults.toString())
 
         if (errors.isNotEmpty() && results != null && results.isEmpty) handleError(errors.last())
 
@@ -72,11 +74,11 @@ class ValidationController(
         return ResponseEntity(mapOf(fileName to resultFileName), HttpStatus.OK)
     }
 
-    @PostMapping("/get-results")
-    fun getValidationResults(@RequestBody request: ValidationResultsRequest): ResponseEntity<List<*>> {
-        if (request.fileName.isEmpty()) return ResponseEntity.ok(listOf<Any>(listOf<Any>(), listOf<Any>()))
+    @GetMapping("get-results")
+    fun getValidationResults(fileName: String): ResponseEntity<List<*>> {
+        if (fileName.isEmpty()) return ResponseEntity.ok(listOf<Any>(listOf<Any>(), listOf<Any>()))
         val fileContent = try {
-            val resultFile = File("./results/${request.fileName}")
+            val resultFile = File("./results/$fileName")
             resultFile.inputStream().readBytes().toString(Charsets.UTF_8)
         } catch (e: Exception) {
             return ResponseEntity.ok(listOf<Any>())
@@ -85,7 +87,7 @@ class ValidationController(
         return ResponseEntity(jacksonObjectMapper().readValue(fileContent, List::class.java), HttpStatus.OK)
     }
 
-    @GetMapping("/get-all-files")
+    @GetMapping("get-all-files")
     fun getValidationFiles(page: String?): Set<*> {
         val uploadedFiles = jacksonObjectMapper().readValue(File("$ROOT_PATH/allFiles/uploaded_files.json"), Set::class.java)
         val splitFiles = jacksonObjectMapper().readValue(File("$ROOT_PATH/allFiles/files_json.json"), Set::class.java)
@@ -93,8 +95,8 @@ class ValidationController(
         return (uploadedFiles + splitFiles).toSet()
     }
 
-    @PostMapping("/file-stats")
-    fun getLogStats(@RequestParam("file") file: MultipartFile): FileStats {
+    @PostMapping("file-stats")
+    fun calculateLogStats(@RequestParam("file") file: MultipartFile): FileStats {
         createFile(file)
         val inputStream = file.inputStream
 
@@ -160,14 +162,33 @@ class ValidationController(
         return Pair(kValue1, splitPercentage1)
     }
 
-    private fun ValidationRequest.configureResults(kValue: String, splitPercentage: String, stats: StringBuilder): JSONArray? {
+    private fun ValidationRequest.configureResults(details: ValidationDetails, rawResults: String): JSONArray? = with(details) {
         val json = JSONObject()
-            .put("fileName", fileName)
-            .put("kValue", kValue)
-            .put("splitPercentage", splitPercentage)
+            .put("File Name", fileName)
+            .put("Split Percentage", splitPercentage.toFloat() * 100)
 
-        val results = resultsToJsonClient.resultsToJson(stats.toString())
-        return JSONArray()
+        if (kValue.toInt() >= 3) {
+            json.put("k value", kValue)
+        }
+
+        when (payload) {
+            Payload.DEFAULT -> json.put("Feature Set", "Basic Features")
+            Payload.NORMAL -> json.put("Feature Set", "Pure Data Features")
+            Payload.BOTH -> json.put("Feature Set", "Data Aware Declare Constraints")
+        }
+
+        when (classifier) {
+            Classification.DECISION_TREE -> {
+                json.put("Max Depth", maxDepth)
+                json.put("Min Samples", minSamples)
+                json.put("Classifier", "Decision Tree")
+            }
+            Classification.LOGISTIC_REGRESSION -> json.put("Classifier", "Logistic Regression")
+        }
+
+        json.put("Coverage Threshold", coverageThreshold)
+        val results = resultsToJsonClient.resultsToJson(rawResults)
+        JSONArray()
             .put(JsonArray(json))
             .put(results)
     }

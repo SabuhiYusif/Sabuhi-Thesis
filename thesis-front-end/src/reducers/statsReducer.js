@@ -1,7 +1,7 @@
 import { GET_STATS, GET_INITIAL_STATS, SET_LABELING_METHOD } from "../actions/types";
 
 const initialState = {
-    stats: [[],[]],
+    results: [[],[]],
     initialStats: [],
     labelingMethod: 'default'
 };
@@ -11,7 +11,7 @@ export default function (state = initialState, action) {
         case GET_STATS:
             return {
                 ...state,
-                stats: action.payload
+                results: action.payload
             };
         case GET_INITIAL_STATS:
             return {

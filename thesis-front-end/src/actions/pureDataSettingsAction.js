@@ -8,7 +8,7 @@ export const setSettingsConfiguration = (settings) => async dispatch => {
     showProgressBar(dispatch, 'SETTINGS')
     try {
         console.log(settings)
-        await axios.post("/write-to-settings", settings);
+        await axios.post("api/write-to-settings", settings);
 
         hideProgressBar(dispatch)
         showSuccess(dispatch, "success", "SETTINGS")

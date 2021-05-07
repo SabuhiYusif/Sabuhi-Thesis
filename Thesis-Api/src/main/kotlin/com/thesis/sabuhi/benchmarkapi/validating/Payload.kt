@@ -1,5 +1,5 @@
 package com.thesis.sabuhi.benchmarkapi.validating
 
 enum class Payload {
-    DEFAULT, NORMAL, DATA
+    DEFAULT, NORMAL, BOTH
 }

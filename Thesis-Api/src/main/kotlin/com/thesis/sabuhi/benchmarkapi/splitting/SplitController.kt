@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import java.io.IOException
@@ -13,6 +14,7 @@ import java.io.IOException
 
 @RestController
 @CrossOrigin
+@RequestMapping("api/")
 class SplitController(
     private val splitService: SplitService
 ) {

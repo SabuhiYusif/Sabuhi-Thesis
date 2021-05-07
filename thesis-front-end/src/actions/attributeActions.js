@@ -6,15 +6,12 @@ import { GET_ERRORS, GET_ATTR_NAMES, GET_ATTR_VALUES, GET_EVENT_ATTRS } from "./
 export const getAttrNamesOfLog = (file, labelingMethod) => async dispatch => {
     showProgressBar(dispatch, 'LABELING')
     try {
-        let formData = new FormData();
-
-        formData.append("file", file);
-        formData.append("labelingMethod", labelingMethod.toUpperCase())
-        const res = await axios.post("/attributes-names", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
+        const res = await axios.post("api/attributes-names",
+            {
+                fileName: file,
+                labelingMethod: labelingMethod.toUpperCase()
             }
-        });
+        );
 
         dispatch({
             type: GET_ATTR_NAMES,
@@ -33,15 +30,12 @@ export const getAttrNamesOfLog = (file, labelingMethod) => async dispatch => {
 export const getAttrValuesOfLog = (file, attributeKey) => async dispatch => {
     showProgressBar(dispatch, 'LABELING')
     try {
-        let formData = new FormData();
-
-        formData.append("file", file);
-        formData.append("attributeKey", attributeKey)
-        const res = await axios.post("/attributes-values", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
+        const res = await axios.post("api/attributes-values",
+            {
+                fileName: file,
+                attributeKey: attributeKey
             }
-        });
+        );
 
         dispatch({
             type: GET_ATTR_VALUES,
@@ -60,11 +54,7 @@ export const getAttrValuesOfLog = (file, attributeKey) => async dispatch => {
 export const fetchEventAttrNames = (fileName) => async dispatch => {
     showProgressBar(dispatch, 'VALIDATING')
     try {
-        let formData = new FormData();
-
-        console.log(fileName)
-        formData.append("fileName", fileName);
-        const res = await axios.get("/get-event-attributes", {
+        const res = await axios.get("api/get-event-attributes", {
             params: {
                 "fileName": fileName
             }

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import './../../App.css';
 import { Box, Checkbox, FormControlLabel, FormGroup } from '@material-ui/core';
 import Chart from "react-apexcharts";
+import ValidationParameters from './ValidationParameters';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,15 +62,16 @@ function ValidationResults(props) {
     return (
         <div className={classes.root}>
 
-            { (stats.length !== 0) &&
+            { (stats[1].length !== 0) &&
                 <Box>
+                    <ValidationParameters parameters={stats[0]} />
                     <FormGroup>
                         <FormControlLabel
                             control={<Checkbox name={"Use radar view"} onChange={handleGraphView} />}
                             label={"Switch to Radar view"}
                         />
                     </FormGroup>
-                    {stats.map(stat =>
+                    {stats[1].map(stat =>
                         <div style={{ display: 'flex', flexDirection: 'row' }}>
                             <Box pr={3}>
                                 <Chart

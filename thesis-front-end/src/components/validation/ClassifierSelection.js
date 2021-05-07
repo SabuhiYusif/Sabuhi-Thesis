@@ -9,7 +9,7 @@ function ClassifierSelection(props) {
         <div>
             <Box mt={5} mr={5}>
                 <RadioGroup onChange={props.handleClassifierChange} aria-label="quiz" name="quiz"  >
-                    <FormControlLabel value="DECISION_TREE" checked={true} control={<Radio />} label="Decision Tree Classifier" />
+                    <FormControlLabel value="DECISION_TREE" control={<Radio />} label="Decision Tree Classifier" />
                     <FormControlLabel value="LOGISTIC_REGRESSION" control={<Radio />} label="Logistic Regression Classifier" />
                 </RadioGroup>
             </Box>

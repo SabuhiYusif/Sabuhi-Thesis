@@ -5,12 +5,14 @@ import org.apache.commons.io.IOUtils
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.io.File
 import java.io.FileInputStream
 
 @RestController
 @CrossOrigin
+@RequestMapping("api/")
 class DownloadController {
 
     @PostMapping(

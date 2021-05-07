@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 function Validation() {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const stats = useSelector(state => state.stats.stats[1])
+    const stats = useSelector(state => state.stats)
     const events = useSelector(state => state.events.attributeNames)
     const request = useSelector(state => state.request)
     const errors = useSelector(state => state.errors)
@@ -211,7 +211,7 @@ function Validation() {
                     handleSubmitClick={handleSubmitClick}
                     handleDownloadClick={handleDownloadClick}
                 />
-                <ValidationResults stats={stats} />
+                <ValidationResults stats={stats.results} />
             </main>
         </div >
     )

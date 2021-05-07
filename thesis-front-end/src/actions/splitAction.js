@@ -14,7 +14,7 @@ export const splitLog = (splitPerc, fileName, splitMethod, kValue) => async disp
         formData.append("fileName", fileName);
         formData.append("splitMethod", splitMethod);
         formData.append("kValue", parseInt(kValue));
-        const res = await axios.post("/split", formData, {
+        const res = await axios.post("api/split", formData, {
             headers: {
                 "Content-Type": "application/json",
             }

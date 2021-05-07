@@ -5,7 +5,7 @@ import { showProgressBar } from "../components/progressBar/showProgressBar";
 export const resetAll = () => async dispatch => {
 
     showProgressBar(dispatch, "VALIDATING")
-    await axios.delete("/reset-all")
+    await axios.delete("api/reset-all")
 
     hideProgressBar(dispatch)
 };
