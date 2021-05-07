@@ -1,4 +1,4 @@
-import { CURRENT_FILE, GET_FILES, SET_LABELING_METHOD } from "./types";
+import { CURRENT_FILE, GET_ERRORS, GET_FILES, SET_LABELING_METHOD } from "./types";
 import axios from "axios";
 import { hideProgressBar } from "../components/progressBar/hideProgressBar";
 import { showSuccess } from "../components/alerts/showSuccess";
@@ -38,8 +38,18 @@ export const labelLog = (fileName, labelingMethod, attrName, attrValue, greater,
 
         hideProgressBar(dispatch)
         showSuccess(dispatch, "Log labeled successfully", service)
-    } catch (err) {
-        // showSuccess(dispatch)
+    } catch (error) {
+        if (error.message !== "Network Error") {
+            dispatch({
+                type: GET_ERRORS,
+                payload: error.response.data
+            })
+        } else {
+            dispatch({
+                type: GET_ERRORS,
+                payload: { "error": error.message }
+            })
+        }
         hideProgressBar(dispatch)
     }
 };

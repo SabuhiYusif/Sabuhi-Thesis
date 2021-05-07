@@ -18,6 +18,8 @@ import ClassifierSelection from './ClassifierSelection';
 import FeatureSelection from './FeatureSelection';
 import ResetAllFiles from '../reset/ResetAllFiles';
 import { currentFileDispatcher } from '../../helpers/currentFileDispatcher'
+import { GET_ERRORS } from '../../actions/types';
+import { closeErrors } from '../../helpers/closeErrors';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -152,6 +154,9 @@ function Validation() {
         console.log(event.target.name)
     }
 
+    const handleAlertClose = (event) => {
+        closeErrors(dispatch)
+    }
     return (
         <div className={classes.root}>
             <Navigation />
@@ -166,6 +171,7 @@ function Validation() {
                 <ResetAllFiles/>
                 {errors.error &&
                     <Alert
+                        onClose={handleAlertClose}
                         severity="error">{errors.error}
                     </Alert>
                 }

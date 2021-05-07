@@ -45,10 +45,15 @@ export const getFullStats = (fileName, payload, classifier, maxDepth, minSamples
         hideProgressBar(dispatch)
         console.log(error.message)
         console.log(error.response)
-        if (error.message !== "Network Error"){
+        if (error.message !== "Network Error") {
             dispatch({
                 type: GET_ERRORS,
                 payload: error.response.data
+            })
+        } else {
+            dispatch({
+                type: GET_ERRORS,
+                payload: { "error": error.message }
             })
         }
     }
@@ -71,12 +76,19 @@ export const getResults = (resultFile) => async dispatch => {
             showSuccess(dispatch, "Evaluation completed successfully!", "VALIDATING")
         }
         hideProgressBar(dispatch)
-    } catch (err) {
+    } catch (error) {
         hideProgressBar(dispatch)
-        dispatch({
-            type: GET_ERRORS,
-            payload: err.response.data
-        })
+        if (error.message !== "Network Error") {
+            dispatch({
+                type: GET_ERRORS,
+                payload: error.response.data
+            })
+        } else {
+            dispatch({
+                type: GET_ERRORS,
+                payload: { "error": error.message }
+            })
+        }
     }
 };
 
@@ -102,9 +114,16 @@ export const getInitialStats = (file) => async dispatch => {
     } catch (error) {
         hideProgressBar(dispatch)
 
-        dispatch({
-            type: GET_ERRORS,
-            payload: error.response
-        })
+        if (error.message !== "Network Error") {
+            dispatch({
+                type: GET_ERRORS,
+                payload: error.response.data
+            })
+        } else {
+            dispatch({
+                type: GET_ERRORS,
+                payload: { "error": error.message }
+            })
+        }
     }
 };

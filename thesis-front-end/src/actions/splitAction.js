@@ -2,7 +2,7 @@ import axios from "axios";
 import { showSuccess } from "../components/alerts/showSuccess";
 import { hideProgressBar } from "../components/progressBar/hideProgressBar";
 import { showProgressBar } from "../components/progressBar/showProgressBar";
-import { CURRENT_FILE, GET_FILES } from "./types";
+import { CURRENT_FILE, GET_ERRORS, GET_FILES } from "./types";
 
 const service = 'SPLITTING'
 export const splitLog = (splitPerc, fileName, splitMethod, kValue) => async dispatch => {
@@ -28,7 +28,18 @@ export const splitLog = (splitPerc, fileName, splitMethod, kValue) => async disp
 
         hideProgressBar(dispatch)
         showSuccess(dispatch, "Log has been splitted successfully", service)
-    } catch (err) {
+    } catch (error) {
         hideProgressBar(dispatch)
+        if (error.message !== "Network Error") {
+            dispatch({
+                type: GET_ERRORS,
+                payload: error.response.data
+            })
+        } else {
+            dispatch({
+                type: GET_ERRORS,
+                payload: { "error": error.message }
+            })
+        }
     }
 };

@@ -55,6 +55,7 @@ function Labeling() {
     const [attrMethod, setAttrMethod] = useState('default');
     const [attrValue, setAttrValue] = useState('default');
     const [meanValue, setMeanValue] = useState(0);
+    const [operator, setOperator] = useState("equals");
     const [visible, setVisibility] = useState(false);
 
     useEffect(() => {
@@ -105,6 +106,9 @@ function Labeling() {
             })
             dispatch(getAttrNamesOfLog(currentFile, event.target.value));
         }
+        setOperator("equals")
+        setAttrMethod("default")
+        setAttrValue("default")
     };
 
     const handleAttrChange = (event) => {
@@ -130,6 +134,7 @@ function Labeling() {
 
     const handleComparisionChange = (event) => {
         let value = event.target.value
+        setOperator(value)
         if (value === 'greater than') {
             setGreater(true)
             setSmaller(false)
@@ -215,7 +220,7 @@ function Labeling() {
                 <br></br>
 
                 {(attrMethod !== 'default' && attrValue !== 'default' && !alert.isSuccessfull && alert.service !== 'LABELING') &&
-                    <Alert severity="info">Pressing <b>Submit</b> button will label Traces with Attribute name: <b>{attrMethod}</b> and Attribute value: <b>{attrValue}</b> as <b>DEVIANT</b> </Alert>
+                    <Alert severity="info">Pressing <b>Submit</b> button Traces with Attribute name: <b>{attrMethod}</b> {operator} <b>{attrValue}</b> will labeled as <b>DEVIANT</b> </Alert>
                 }
                 {
                     (alert.service === 'LABELING') &&
