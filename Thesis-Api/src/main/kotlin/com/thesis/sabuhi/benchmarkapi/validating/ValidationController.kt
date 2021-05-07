@@ -47,7 +47,7 @@ class ValidationController(
         val (kValue, splitPercentage) = try {
             splitValues()
         } catch (e: IllegalArgumentException) {
-            return ResponseEntity(mapOf("error" to "Feature group not selected"), HttpStatus.BAD_REQUEST)
+            return ResponseEntity(mapOf("error" to "Please select split file"), HttpStatus.BAD_REQUEST)
         }
         val originalFileName = fileName.getOriginalFileName()
         val details = ValidationDetails(

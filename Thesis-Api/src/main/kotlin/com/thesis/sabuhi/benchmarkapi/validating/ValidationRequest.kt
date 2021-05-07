@@ -3,22 +3,22 @@ package com.thesis.sabuhi.benchmarkapi.validating
 import javax.validation.constraints.NotBlank
 
 data class ValidationRequest(
-    @get:NotBlank
+    @field:NotBlank
     val fileName: String,
 
-    @get:NotBlank
+    @field:NotBlank
     val payload: Payload,
 
-    @get:NotBlank
+    @field:NotBlank
     val classifier: Classification,
 
-    @get:NotBlank
+    @field:NotBlank
     val maxDepth: Int,
 
-    @get:NotBlank
+    @field:NotBlank
     val minSamples: Int,
 
-    @get:NotBlank
+    @field:NotBlank
     val coverageThreshold: Int
 )
 

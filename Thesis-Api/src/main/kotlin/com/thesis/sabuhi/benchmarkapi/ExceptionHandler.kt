@@ -21,8 +21,8 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
         status: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> {
-        println("DASKLJDLKASJ")
-        return ResponseEntity(mapOf("error" to exception.parameterName), BAD_REQUEST)
+        print(exception.rootCause)
+        return ResponseEntity(mapOf("error" to exception.parameterName + " parameter is required"), BAD_REQUEST)
     }
 
     override fun handleBindException(
@@ -42,9 +42,8 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
         status: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> {
-        println("MISMATCH")
 
-        TODO("Implement response entity")
+        return ResponseEntity(mapOf("error" to ex.propertyName + " type is invalid"), BAD_REQUEST)
     }
 
     override fun handleHttpMessageNotReadable(
@@ -53,6 +52,10 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
         status: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> {
+
+        print("MESSAGE " + ex.httpInputMessage)
+        print("MESSAGE " + ex.message)
+        print("MESSAGE " + ex.rootCause)
 
         return ResponseEntity(mapOf("error" to "Feature group not selected"), BAD_REQUEST)
     }
