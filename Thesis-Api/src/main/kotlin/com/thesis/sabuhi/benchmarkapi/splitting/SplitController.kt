@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
@@ -21,7 +22,7 @@ class SplitController(
     private val log = LoggerFactory.getLogger(javaClass)
 
     @PostMapping("split")
-    fun split(request: SplittingRequest): Map<String, String> {
+    fun split(@RequestBody request: SplittingRequest): Map<String, String> {
         val splitFile = splitService.splitLog(request)
         log.debug("Split log file $splitFile")
 

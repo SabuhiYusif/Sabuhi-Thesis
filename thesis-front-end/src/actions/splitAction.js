@@ -8,18 +8,14 @@ const service = 'SPLITTING'
 export const splitLog = (splitPerc, fileName, splitMethod, kValue) => async dispatch => {
     try {
         showProgressBar(dispatch, service)
-        let formData = new FormData();
-
-        formData.append("splitPerc", splitPerc);
-        formData.append("fileName", fileName);
-        formData.append("splitMethod", splitMethod);
-        formData.append("kValue", parseInt(kValue));
-        const res = await axios.post("api/split", formData, {
-            headers: {
-                "Content-Type": "application/json",
+        const res = await axios.post("api/split",
+            {
+                splitPerc: splitPerc,
+                fileName: fileName,
+                splitMethod: splitMethod,
+                kValue: parseInt(kValue)
             }
-        });
-        console.log(res.data)
+        );
         dispatch({
             type: GET_FILES,
             payload: res.data

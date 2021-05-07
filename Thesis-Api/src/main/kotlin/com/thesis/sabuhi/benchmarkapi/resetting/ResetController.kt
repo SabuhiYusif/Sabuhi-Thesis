@@ -4,11 +4,13 @@ import com.thesis.sabuhi.benchmarkapi.ROOT_PATH
 import com.thesis.sabuhi.benchmarkapi.files.FileService
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.io.File
 
 @RestController
 @CrossOrigin
+@RequestMapping("api/")
 class ResetController(private val fileService: FileService) {
 
     @DeleteMapping("reset-all")

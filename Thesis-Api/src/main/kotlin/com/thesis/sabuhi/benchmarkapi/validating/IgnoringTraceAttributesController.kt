@@ -7,6 +7,7 @@ import com.thesis.sabuhi.benchmarkapi.ROOT_PATH
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.io.BufferedReader
 import java.io.File
@@ -18,6 +19,7 @@ import java.util.Scanner
 
 @CrossOrigin
 @RestController
+@RequestMapping("api/")
 class IgnoringTraceAttributesController {
 
     @PostMapping("add-ignored-attributes")

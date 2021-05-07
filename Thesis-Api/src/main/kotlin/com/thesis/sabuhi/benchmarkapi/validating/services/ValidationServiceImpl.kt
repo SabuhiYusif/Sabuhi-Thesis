@@ -26,14 +26,13 @@ class ValidationServiceImpl : ValidationService {
         val rawResults = StringBuilder()
         while (stdInput.readLine().also { line = it } != null) {
             rawResults.append(line.toString().trim() + "\n")
-            println("NORMAL " + line.toString().trim())
-            log.debug("NORMAL " + line.toString().trim())
         }
+
+        log.debug("NORMAL $rawResults")
 
         val errors = mutableListOf<String>()
         while (stdError.readLine().also { line = it } != null) {
             errors.add(line.toString().trim())
-            println("ERRORS " + line.toString().trim())
             log.debug("ERRORS " + line.toString().trim())
         }
         return Pair(rawResults, errors)
