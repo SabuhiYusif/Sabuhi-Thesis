@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import './../../App.css';
-import { Divider, TextField } from '@material-ui/core';
+import { Box, Divider, TextField } from '@material-ui/core';
 import Navigation from '../navigation/Navigation';
 import { getFullStats } from "../../actions/validatingActions";
 import { getResults } from "../../actions/validatingActions";
@@ -162,13 +162,20 @@ function Validation() {
             <Navigation />
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <Header
-                    handleLogChange={handleCurrentFileChange}
-                    currFile={currentFile}
-                    title={"Validation"}
-                />
+                {/* <Box> */}
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Box pr={1}>
+                        <Header
+                            handleLogChange={handleCurrentFileChange}
+                            currFile={currentFile}
+                            title={"Validation"}
+                        />
+                    </Box>
+                    <Box pr={1}>
 
-                <ResetAllFiles/>
+                        <ResetAllFiles />
+                    </Box>
+                </div>
                 {errors.error &&
                     <Alert
                         onClose={handleAlertClose}

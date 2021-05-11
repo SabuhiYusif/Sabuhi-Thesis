@@ -23,11 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import org.springframework.web.server.ResponseStatusException
-import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
-import java.io.InputStreamReader
 import javax.validation.Valid
 
 @CrossOrigin
@@ -63,7 +60,9 @@ class ValidationController(
         val (rawResults, errors) = validationService.runValidation(details)
         val results = configureResults(details, rawResults.toString())
 
-        if (errors.isNotEmpty() && results != null && results.isEmpty) handleError(errors.last())
+        if (results != null) {
+            if (errors.isNotEmpty() || results.isEmpty) return handleError(errors.last())
+        }
 
         val resultFileName = fileName.generateResultsFileName()
 
@@ -100,23 +99,19 @@ class ValidationController(
         createFile(file)
         val inputStream = file.inputStream
 
-        val eventRegex = Regex("<event>")
-        val caseRegex = Regex("<trace>")
-        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
-        val events = mutableListOf<Int>()
-        val cases = mutableListOf<Int>()
-        bufferedReader.forEachLine {
-            events.add(eventRegex.findAll(it).count())
-            cases.add(caseRegex.findAll(it).count())
-        }
-
-        return FileStats(events.reduce { acc, i -> acc + i }, cases.reduce { acc, i -> acc + i })
+        return fileService.calculateStats(inputStream)
     }
 
-    private fun handleError(error: String) {
-        when (error) {
-            "KeyError: 'Label'" -> throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Unlabeled log file")
-            else -> throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error occurred $error")
+    @PostMapping("curr-file-stats")
+    fun calculateCurrentFile(@RequestBody request: FileStatsRequest): FileStats {
+        val file = File("${ROOT_PATH}logs/${request.fileName}")
+        return fileService.calculateStats(file.inputStream())
+    }
+
+    private fun handleError(error: String): ResponseEntity<Map<String, String>> {
+        return when (error) {
+            "KeyError: 'Label'" -> ResponseEntity(mapOf("error" to "Unlabeled log file"), HttpStatus.BAD_REQUEST)
+            else -> ResponseEntity(mapOf("error" to "Something went wrong while evaluating the file"), HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 
@@ -192,4 +187,6 @@ class ValidationController(
             .put(JsonArray(json))
             .put(results)
     }
+
+    data class FileStatsRequest(val fileName: String)
 }

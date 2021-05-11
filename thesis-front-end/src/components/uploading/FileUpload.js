@@ -3,7 +3,7 @@ import { makeStyles, } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { getInitialStats } from "../../actions/validatingActions";
+import { getCurrentFileInitialStats, getInitialStats } from "../../actions/validatingActions";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import './../../App.css';
@@ -60,7 +60,6 @@ function FileUpload() {
         if (request.status === 'LOADING' && request.service === 'UPLOADING') {
             setVisibility(true);
         }
-
         if (request.status === 'COMPLETED') {
             setVisibility(false);
         }
@@ -69,18 +68,20 @@ function FileUpload() {
 
     const classes = useStyles();
     const handleUploadClick = (event) => {
-        showProgressBar(dispatch, 'UPLOADING')
         const fileName = event.target.files[0];
-        dispatch({
-            type: GET_FILES,
-            payload: { [fileName.name]: "" }
-        })
-
-        dispatch(getInitialStats(fileName))
-        currentFileDispatcher(dispatch, fileName.name)
+        if (typeof fileName !== 'undefined') {
+            dispatch({
+                type: GET_FILES,
+                payload: { [fileName.name]: "" }
+            })
+    
+            dispatch(getInitialStats(fileName))
+            currentFileDispatcher(dispatch, fileName.name)
+        }
     }
 
     const handleCurrentFileChange = (event) => {
+        dispatch(getCurrentFileInitialStats(event.target.value))
         currentFileDispatcher(dispatch, event.target.value)
     };
 

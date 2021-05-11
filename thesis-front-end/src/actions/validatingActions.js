@@ -127,3 +127,37 @@ export const getInitialStats = (file) => async dispatch => {
         }
     }
 };
+
+export const getCurrentFileInitialStats = (fileName) => async dispatch => {
+    try {
+        showProgressBar(dispatch, 'UPLOADING')
+
+        let formData = new FormData();
+        
+
+        formData.append("fileName", fileName);
+        const res = await axios.post("api/curr-file-stats", {fileName: fileName});
+
+        dispatch({
+            type: GET_INITIAL_STATS,
+            payload: res.data
+        })
+        hideProgressBar(dispatch)
+
+    } catch (error) {
+        hideProgressBar(dispatch)
+
+        if (error.message !== "Network Error") {
+            dispatch({
+                type: GET_ERRORS,
+                payload: error.response.data
+            })
+        } else {
+            dispatch({
+                type: GET_ERRORS,
+                payload: { "error": error.message }
+            })
+        }
+    }
+};
+// getCurrentFileInitialStats
