@@ -14,6 +14,7 @@ import InitialStats from './InitialStats';
 import { fetchAllFiles } from '../../actions/filesActions';
 import { currentFileDispatcher } from '../../helpers/currentFileDispatcher'
 import Alert from '@material-ui/lab/Alert';
+import { resetAll } from '../../actions/resetActions';
 
 const useStyles = makeStyles((theme) => ({
     submitButton: {
@@ -52,7 +53,7 @@ function FileUpload() {
     }, []);
 
     useEffect(() => {
-        
+
     }, [currentFile]);
 
     useEffect(() => {
@@ -73,7 +74,7 @@ function FileUpload() {
                 type: GET_FILES,
                 payload: { [fileName.name]: "" }
             })
-    
+
             dispatch(getInitialStats(fileName))
             currentFileDispatcher(dispatch, fileName.name)
         }
@@ -83,6 +84,16 @@ function FileUpload() {
         dispatch(getCurrentFileInitialStats(event.target.value))
         currentFileDispatcher(dispatch, event.target.value)
     };
+
+    const handleSubmit = (event) => {
+        if (currentFile !== "default") {
+            dispatch(getInitialStats(currentFile))
+        }
+    }
+
+    const handleReset = () => {
+        dispatch(resetAll())
+    }
 
     return (
         <div className={classes.root}>
@@ -116,15 +127,18 @@ function FileUpload() {
                 <Button
                     variant="outlined"
                     color="primary"
-                    className={classes.submitButton}>
+                    className={classes.submitButton}
+                    onClick={handleSubmit}
+                >
                     Submit
                 </Button>
 
                 <Button
                     variant="outlined"
                     color="default"
+                    onClick={handleReset}
                     className={classes.submitButton}>
-                    Reset
+                    Reset All
                 </Button>
 
                 {visible ? <LinearProgress /> : null}
