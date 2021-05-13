@@ -19,7 +19,20 @@ data class ValidationRequest(
     val minSamples: Int,
 
     @field:NotBlank
-    val coverageThreshold: Int
+    val coverageThreshold: Int,
+
+    @field:NotBlank
+    val individualActivities: String,
+
+    @field:NotBlank
+    val declare: String,
+
+    @field:NotBlank
+    val sequence: String,
+
+    @field:NotBlank
+    val hybrid: String
+
 )
 
 data class ValidationResultsRequest(val fileName: String)

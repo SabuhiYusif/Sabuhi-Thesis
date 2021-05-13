@@ -20,15 +20,9 @@ def export_log(log, file_name):
     data.append(split_file)
     with open(files_dir + "/files_json.json", "w") as my_file:
         json.dump(data, my_file)
-    # directory = PATH + "allFiles"
-    # if not os.path.exists(directory):
-    #     os.makedirs(directory)
-    # with open(directory + "/files.txt", "a") as myfile:
-    #     myfile.write(file_name + "\n")
 
     print(file_name)
     return file_name
-    # xes_exporter.__export_log(log, new_log_name+ ".xes")
 
 
 def labeling_for_numeric(file_name, log, attr_name, custom_value, greater=False, smaller=False):
@@ -65,7 +59,7 @@ def smaller_than(file_name, attr_name, log, value):
             attr_value = value
             pass
         # if smaller then mark it deviant
-        if int(attr_value) < int(value):
+        if int(attr_value) <= int(value):
             trace.attributes["Label"] = "1"
         else:
             trace.attributes["Label"] = "0"
@@ -81,7 +75,7 @@ def greater_than(file_name, attr_name, log, value):
             attr_value = value
             pass
         # if bigger then mark it deviant
-        if int(attr_value) > int(value):
+        if int(attr_value) >= int(value):
             trace.attributes["Label"] = "1"
         else:
             trace.attributes["Label"] = "0"
@@ -97,7 +91,7 @@ def labeling_for_timestamp(file_name, log, attr_name, value, greater=False, smal
                 attr_value = trace.attributes[attr_name]
             except:
                 pass
-            if type(attr_value) is datetime and attr_value > value:
+            if type(attr_value) is datetime and attr_value >= value:
                 trace.attributes["Label"] = "1"
             else:
                 trace.attributes["Label"] = "0"
@@ -108,7 +102,7 @@ def labeling_for_timestamp(file_name, log, attr_name, value, greater=False, smal
                 attr_value = trace.attributes[attr_name]
             except:
                 pass
-            if type(attr_value) is datetime and attr_value < value:
+            if type(attr_value) is datetime and attr_value <= value:
                 trace.attributes["Label"] = "1"
             else:
                 trace.attributes["Label"] = "0"
@@ -150,12 +144,6 @@ if __name__ == "__main__":
     value = ' '.join(map(str, value_separated))
 
     log = pm4py.read_xes(PATH + "logs/" + file_name)
-
-    # event_stream = pm4py.convert_to_event_stream(log)
-    # sorted_event = func.sort_(lambda e: e['time:timestamp'], event_stream)
-    #
-    # new_log = pm4py.convert_to_event_log(sorted_event)
-    # export_log(new_log, "asdasdasd.xes")
 
     if method == "numerical":
         labeling_for_numeric(file_name, log, attr_name, value, greater, smaller)

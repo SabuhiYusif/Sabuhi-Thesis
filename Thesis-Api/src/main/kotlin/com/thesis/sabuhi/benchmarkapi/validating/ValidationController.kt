@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import javax.validation.Valid
+import javax.validation.constraints.NotBlank
 
 @CrossOrigin
 @RestController
@@ -55,12 +57,16 @@ class ValidationController(
             classifier,
             maxDepth,
             minSamples,
-            coverageThreshold
+            coverageThreshold,
+            individualActivities,
+            declare,
+            sequence,
+            hybrid
         )
         val (rawResults, errors) = validationService.runValidation(details)
         val results = configureResults(details, rawResults.toString())
 
-        if (results != null) {
+        results?.let {
             if (errors.isNotEmpty() || results.isEmpty) return handleError(errors.last())
         }
 
@@ -80,7 +86,7 @@ class ValidationController(
             val resultFile = File("./results/$fileName")
             resultFile.inputStream().readBytes().toString(Charsets.UTF_8)
         } catch (e: Exception) {
-            return ResponseEntity.ok(listOf<Any>())
+            return ResponseEntity.ok(listOf<Any>(listOf<Any>(), listOf<Any>()))
         }
 
         return ResponseEntity(jacksonObjectMapper().readValue(fileContent, List::class.java), HttpStatus.OK)
@@ -88,8 +94,16 @@ class ValidationController(
 
     @GetMapping("get-all-files")
     fun getValidationFiles(page: String?): Set<*> {
-        val uploadedFiles = jacksonObjectMapper().readValue(File("$ROOT_PATH/allFiles/uploaded_files.json"), Set::class.java)
-        val splitFiles = jacksonObjectMapper().readValue(File("$ROOT_PATH/allFiles/files_json.json"), Set::class.java)
+        val uploadedFiles = try {
+            jacksonObjectMapper().readValue(File("$ROOT_PATH/allFiles/uploaded_files.json"), Set::class.java)
+        } catch (e: FileNotFoundException) {
+            setOf<Any>()
+        }
+        val splitFiles = try {
+            jacksonObjectMapper().readValue(File("$ROOT_PATH/allFiles/files_json.json"), Set::class.java)
+        } catch (e: FileNotFoundException) {
+             setOf<Any>()
+        }
 
         return (uploadedFiles + splitFiles).toSet()
     }

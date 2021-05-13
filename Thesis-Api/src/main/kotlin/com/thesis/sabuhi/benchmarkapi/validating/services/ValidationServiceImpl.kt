@@ -13,7 +13,8 @@ class ValidationServiceImpl : ValidationService {
 
     override fun runValidation(details: ValidationDetails) : Pair<StringBuilder, MutableList<String>> {
         val path = with(details) {
-            "python3 ${ROOT_PATH}benchmarks.py $splitPercentage $originalFileName.xes ${payload.toLower()} $kValue ${classifier.name} $maxDepth $minSamples $coverageThreshold"
+            "python3 ${ROOT_PATH}benchmarks.py $splitPercentage $originalFileName.xes ${payload.toLower()}" +
+                " $kValue ${classifier.name} $maxDepth $minSamples $coverageThreshold $individualActivities:$declare:$sequence:$hybrid"
         }
         log.debug("Execute validation process in path $path")
 

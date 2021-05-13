@@ -11,5 +11,9 @@ data class ValidationDetails(
     val classifier: Classification,
     val maxDepth: Int,
     val minSamples: Int,
-    val coverageThreshold: Int
+    val coverageThreshold: Int,
+    val individualActivities: String,
+    val declare: String,
+    val sequence: String,
+    val hybrid: String
 )
