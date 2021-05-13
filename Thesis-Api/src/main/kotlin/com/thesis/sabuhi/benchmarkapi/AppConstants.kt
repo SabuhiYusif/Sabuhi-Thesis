@@ -2,8 +2,8 @@ package com.thesis.sabuhi.benchmarkapi
 
 const val ROOT_PATH = "/home/ubuntu/thesis-joonas/devianceminingthesis/DevianceMiningPipeline/"
 //const val ROOT_PATH = "/home/sabuhi/Thesis-Joonas/devianceminingthesis/DevianceMiningPipeline/"
-const val HELPER_ROOT_PATH = "/home/ubuntu/all-repos/Sabuhi-Thesis/thesis-labeling/"
-//const val HELPER_ROOT_PATH = "/home/sabuhi/Sabuhi-Thesis-Repos/thesis-labeling/"
+const val HELPER_ROOT_PATH = "/home/ubuntu/all-repos/Sabuhi-Thesis/helper-tool/"
+//const val HELPER_ROOT_PATH = "/home/sabuhi/Sabuhi-Thesis-Repos/helper-tool/"
 
 val MAP_OF_FEATURES = mapOf(
     "Statistics for TRAIN Model baseline with selection coverage" to "Individual Activities",
