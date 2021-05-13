@@ -47,6 +47,9 @@ function Header(props) {
             <Box p={1}>
                 <FormControl className={classes.formControl}>
                     <Select labelId="label" id="filesSelect" value={currentFile} onChange={logChange}>
+                        <MenuItem value="default">
+                            Please select a file
+                        </MenuItem>
                         {files.map((text, index) => (
                             <MenuItem value={Object.keys(text)[0]}>{Object.keys(text)[0]}</MenuItem>
                         ))}

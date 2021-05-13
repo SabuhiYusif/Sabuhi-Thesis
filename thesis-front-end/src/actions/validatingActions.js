@@ -3,19 +3,37 @@ import { GET_STATS, GET_INITIAL_STATS, GET_ERRORS, GET_FILES, CURRENT_FILE } fro
 import { hideProgressBar } from "../components/progressBar/hideProgressBar";
 import { showProgressBar } from "../components/progressBar/showProgressBar";
 import { showSuccess } from "../components/alerts/showSuccess";
+import { BASE_URL } from "./urls";
 
-export const getFullStats = (fileName, payload, classifier, maxDepth, minSamples, coverageThreshold, resultFile) => async dispatch => {
+export const getFullStats = (
+    fileName,
+    payload,
+    classifier,
+    maxDepth,
+    minSamples,
+    coverageThreshold,
+    resultFile,
+    IA,
+    declare,
+    seq,
+    hybrid
+) => async dispatch => {
     showProgressBar(dispatch, 'VALIDATING')
 
     try {
-        const res = await axios.post("api/evaluate",
+
+        const res = await axios.post(`${BASE_URL}api/evaluate`,
             {
                 fileName: fileName,
                 payload: payload,
                 classifier: classifier,
                 maxDepth: maxDepth,
                 minSamples: minSamples,
-                coverageThreshold: coverageThreshold
+                coverageThreshold: coverageThreshold,
+                individualActivities: IA,
+                declare: declare,
+                sequence: seq,
+                hybrid: hybrid
             }
         );
 
@@ -24,7 +42,7 @@ export const getFullStats = (fileName, payload, classifier, maxDepth, minSamples
             payload: res.data
         })
 
-        const res2 = await axios.get("api/get-results", {
+        const res2 = await axios.get(`${BASE_URL}api/get-results`, {
             params: {
                 "fileName": Object.values(resultFile)[0]
             }
@@ -43,8 +61,6 @@ export const getFullStats = (fileName, payload, classifier, maxDepth, minSamples
         hideProgressBar(dispatch)
     } catch (error) {
         hideProgressBar(dispatch)
-        console.log(error.message)
-        console.log(error.response)
         if (error.message !== "Network Error") {
             dispatch({
                 type: GET_ERRORS,
@@ -63,7 +79,7 @@ export const getResults = (resultFile) => async dispatch => {
     showProgressBar(dispatch, 'VALIDATING')
 
     try {
-        const res = await axios.get("api/get-results", {
+        const res = await axios.get(`${BASE_URL}api/get-results`, {
             params: {
                 "fileName": Object.values(resultFile)[0]
             }
@@ -99,7 +115,7 @@ export const getInitialStats = (file) => async dispatch => {
         let formData = new FormData();
 
         formData.append("file", file);
-        const res = await axios.post("api/file-stats", formData, {
+        const res = await axios.post(`${BASE_URL}api/file-stats`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
             }
@@ -133,10 +149,10 @@ export const getCurrentFileInitialStats = (fileName) => async dispatch => {
         showProgressBar(dispatch, 'UPLOADING')
 
         let formData = new FormData();
-        
+
 
         formData.append("fileName", fileName);
-        const res = await axios.post("api/curr-file-stats", {fileName: fileName});
+        const res = await axios.post(`${BASE_URL}api/curr-file-stats`, { fileName: fileName });
 
         dispatch({
             type: GET_INITIAL_STATS,
@@ -160,4 +176,3 @@ export const getCurrentFileInitialStats = (fileName) => async dispatch => {
         }
     }
 };
-// getCurrentFileInitialStats

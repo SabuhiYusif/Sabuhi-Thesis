@@ -97,7 +97,7 @@ function ValidationResults(props) {
                                                 labels: {
                                                     show: true,
                                                 },
-                                                categories: ["mean Acc", "mean AUC", "mean F1", "mean Recall", "mean Precision"],
+                                                categories: ["Accuracy", "AUC", "F1", "Recall", "Precision"],
                                                 position: 'bottom',
                                             },
                                             title: {
@@ -150,7 +150,7 @@ function ValidationResults(props) {
                                                     show: true,
                                                 },
                                                 title: "Feature Name",
-                                                categories: ["mean Acc", "mean AUC", "mean F1", "mean Recall", "mean Precision"]
+                                                categories: ["Accuracy", "AUC", "F1", "Recall", "Precision"]
                                             },
                                             title: {
                                                 text: "Test - " + stat.featureName,

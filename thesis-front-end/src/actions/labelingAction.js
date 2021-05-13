@@ -3,6 +3,8 @@ import axios from "axios";
 import { hideProgressBar } from "../components/progressBar/hideProgressBar";
 import { showSuccess } from "../components/alerts/showSuccess";
 import { showProgressBar } from "../components/progressBar/showProgressBar";
+import { BASE_URL } from "./urls";
+
 
 export const setLabelingMethod = (labelingMethod) => async dispatch => {
     dispatch({
@@ -15,7 +17,7 @@ const service = 'LABELING'
 export const labelLog = (fileName, labelingMethod, attrName, attrValue, greater, smaller) => async dispatch => {
     showProgressBar(dispatch, service)
     try {
-        const res = await axios.post("api/labeling",
+        const res = await axios.post(`${BASE_URL}api/labeling`,
             {
                 fileName: fileName,
                 labelingMethod: labelingMethod,

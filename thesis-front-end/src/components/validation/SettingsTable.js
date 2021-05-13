@@ -20,11 +20,10 @@ const useStyles = makeStyles((theme) => ({
         ...theme.mixins.toolbar,
     },
     root: {
-        width: "100%",
+        width: "75%",
         marginTop: theme.spacing.unit * 3,
         overflowX: "auto"
     },
-    table: {},
     featureMethods: {
         display: 'flex',
         alignItems: 'center',
@@ -74,7 +73,7 @@ function SettingsTable(props) {
     return (
         <div>
             <Paper key={props.settings} className={classes.root}>
-                <Table className={classes.table}>
+                <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>Event Attribute Name</TableCell>

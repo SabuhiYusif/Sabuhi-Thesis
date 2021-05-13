@@ -18,7 +18,6 @@ import ClassifierSelection from './ClassifierSelection';
 import FeatureSelection from './FeatureSelection';
 import ResetAllFiles from '../reset/ResetAllFiles';
 import { currentFileDispatcher } from '../../helpers/currentFileDispatcher'
-import { GET_ERRORS } from '../../actions/types';
 import { closeErrors } from '../../helpers/closeErrors';
 
 
@@ -72,16 +71,20 @@ function Validation() {
     const currentFile = useSelector(state => state.currentFile)
     const files = useSelector(state => state.files)
     const [payload, setPayload] = useState("")
+    const [IA, setIA] = useState(false)
+    const [declare, setDeclare] = useState(false)
+    const [seq, setSeq] = useState(false)
+    const [hybrid, setHybrid] = useState(false)
     const [features, setFeatures] = useState([])
     const [_, setVisibility] = useState(false);
-    const [classifier, setClassifier] = useState("DECISION_TREE");
-    const [maxDepth, setMaxDepth] = useState(10);
-    const [minSamples, setMinSamples] = useState(5);
+    const [classifier, setClassifier] = useState("DECISION_TREE")
+    const [maxDepth, setMaxDepth] = useState(10)
+    const [minSamples, setMinSamples] = useState(5)
     const [coverageThreshold, setCoverage] = useState(5)
 
-    const basicFeatures = ['IA', 'Declare', 'IA + MR', 'IA + MRA', 'IA + TR', 'IA + TRA', 'Hybrid']
-    const pureDataFeatures = ['IA + data', 'Declare + data', 'IA + MR + data', 'IA + MRA + data', 'IA + TR + data', 'IA + TRA + data', 'Hybrid + data']
-    const dwdFeatures = ['IA', 'Declare', 'Declare + data', 'Declare + dwd', 'Declare + dwd + data', 'Hybrid', 'Hybrid + data', 'Hybrid + dwd', 'Hybrid + dwd + data']
+    const basicFeatures = ['IA', 'Declare', 'Sequence (IA + MR; IA + MRA; IA + TR; IA + TRA)', 'Hybrid']
+    const pureDataFeatures = ['IA + data', 'Declare + data', 'Sequence (IA + MR + data; IA + MRA + data; IA + TR + data; IA + TRA + data)', 'Hybrid + data']
+    const dwdFeatures = ['IA', 'Declare (Declare + data; Declare + dwd; Declare + dwd + data)', 'Hybrid (Hybrid + data; Hybrid + dwd; Hybrid + dwd + data)']
 
 
     useEffect(() => {
@@ -104,8 +107,24 @@ function Validation() {
 
 
     const handleSubmitClick = () => {
-        var resultFile = files.find(obj => Object.keys(obj)[0] == currentFile);
-        dispatch(getFullStats(currentFile, payload, classifier, maxDepth, minSamples, coverageThreshold, resultFile))
+        let resultFile = files.find(obj => Object.keys(obj)[0] == currentFile);
+        let IA_ = (IA) ? "ia" : "def"
+        let declare_ = (declare) ? "declare" : "def"
+        let seq_ = (seq) ? "seq" : "def"
+        let hyb_ = (hybrid) ? "hyb" : "def"
+        dispatch(getFullStats(
+            currentFile,
+            payload,
+            classifier,
+            maxDepth,
+            minSamples,
+            coverageThreshold,
+            resultFile,
+            IA_,
+            declare_,
+            seq_,
+            hyb_
+        ))
     }
 
     const handleDownloadClick = (event) => {
@@ -151,7 +170,17 @@ function Validation() {
     }
 
     const handleFeatureChecks = (event) => {
-        console.log(event.target.name)
+        let value = event.target.name
+        console.log(IA)
+        if (value === "IA") {
+            setIA(!IA)
+        } else if (value.includes("Declare")) {
+            setDeclare(!declare)
+        } else if (value.includes("Sequence")) {
+            setSeq(!seq)
+        } else if (value.includes("Hybrid")) {
+            setHybrid(!hybrid)
+        }
     }
 
     const handleAlertClose = (event) => {
@@ -162,7 +191,6 @@ function Validation() {
             <Navigation />
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                {/* <Box> */}
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <Box pr={1}>
                         <Header

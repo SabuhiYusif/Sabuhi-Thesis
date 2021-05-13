@@ -1,6 +1,6 @@
 import { CURRENT_FILE } from "../actions/types";
 
-const initialState = "";
+const initialState = "default";
 
 export default function (state = initialState, action) {
     switch (action.type) {

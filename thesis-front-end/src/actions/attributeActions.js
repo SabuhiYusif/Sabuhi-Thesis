@@ -2,11 +2,12 @@ import axios from "axios";
 import { hideProgressBar } from "../components/progressBar/hideProgressBar";
 import { showProgressBar } from "../components/progressBar/showProgressBar";
 import { GET_ERRORS, GET_ATTR_NAMES, GET_ATTR_VALUES, GET_EVENT_ATTRS } from "./types";
+import { BASE_URL } from "./urls";
 
 export const getAttrNamesOfLog = (file, labelingMethod) => async dispatch => {
     showProgressBar(dispatch, 'LABELING')
     try {
-        const res = await axios.post("api/attributes-names",
+        const res = await axios.post(`${BASE_URL}api/attributes-names`,
             {
                 fileName: file,
                 labelingMethod: labelingMethod.toUpperCase()
@@ -30,7 +31,7 @@ export const getAttrNamesOfLog = (file, labelingMethod) => async dispatch => {
 export const getAttrValuesOfLog = (file, attributeKey) => async dispatch => {
     showProgressBar(dispatch, 'LABELING')
     try {
-        const res = await axios.post("api/attributes-values",
+        const res = await axios.post(`${BASE_URL}api/attributes-values`,
             {
                 fileName: file,
                 attributeKey: attributeKey
@@ -54,7 +55,7 @@ export const getAttrValuesOfLog = (file, attributeKey) => async dispatch => {
 export const fetchEventAttrNames = (fileName) => async dispatch => {
     showProgressBar(dispatch, 'VALIDATING')
     try {
-        const res = await axios.get("api/get-event-attributes", {
+        const res = await axios.get(`${BASE_URL}api/get-event-attributes`, {
             params: {
                 "fileName": fileName
             }

@@ -8,7 +8,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import './../../App.css';
 import Header from '../Header';
-import { showProgressBar } from '../progressBar/showProgressBar';
 import Navigation from '../navigation/Navigation';
 import { GET_FILES } from '../../actions/types';
 import InitialStats from './InitialStats';

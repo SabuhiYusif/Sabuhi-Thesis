@@ -2,12 +2,13 @@ import axios from "axios";
 import { hideProgressBar } from "../components/progressBar/hideProgressBar";
 import { showProgressBar } from "../components/progressBar/showProgressBar";
 import { GET_ALL_FILES, GET_ERRORS } from "./types";
+import { BASE_URL } from "./urls";
 
 
 export const fetchAllFiles = (pageName) => async dispatch => {
     try {
         showProgressBar(dispatch, 'VALIDATING')
-        const res = await axios.get("api/get-all-files", {
+        const res = await axios.get(`${BASE_URL}api/get-all-files`, {
             params: {
                 "page": pageName
             }

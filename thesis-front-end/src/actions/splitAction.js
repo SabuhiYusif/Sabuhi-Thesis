@@ -3,12 +3,13 @@ import { showSuccess } from "../components/alerts/showSuccess";
 import { hideProgressBar } from "../components/progressBar/hideProgressBar";
 import { showProgressBar } from "../components/progressBar/showProgressBar";
 import { CURRENT_FILE, GET_ERRORS, GET_FILES } from "./types";
+import { BASE_URL } from "./urls";
 
 const service = 'SPLITTING'
 export const splitLog = (splitPerc, fileName, splitMethod, kValue) => async dispatch => {
     try {
         showProgressBar(dispatch, service)
-        const res = await axios.post("api/split",
+        const res = await axios.post(`${BASE_URL}api/split`,
             {
                 splitPerc: splitPerc,
                 fileName: fileName,

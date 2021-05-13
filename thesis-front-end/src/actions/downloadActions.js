@@ -1,13 +1,14 @@
 import axios from "axios";
 import fileDownload from 'js-file-download';
 import { hideProgressBar } from "../components/progressBar/hideProgressBar";
+import { BASE_URL } from "./urls";
 
 
 export const downloadLog = (fileName) => async dispatch => {
     let formData = new FormData();
 
     formData.append("fileName", fileName);
-    const res = await axios.post("api/download", formData, {
+    const res = await axios.post(`${BASE_URL}api/download`, formData, {
         responseType: 'blob',
     });
 
@@ -21,7 +22,7 @@ export const downloadLog = (fileName) => async dispatch => {
 
 export const downloadSettingsLog = () => async dispatch => {
 
-    const res = await axios.post("api/download-settings", {
+    const res = await axios.post(`${BASE_URL}api/download-settings`, {
         responseType: 'blob',
     });
 

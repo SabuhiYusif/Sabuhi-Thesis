@@ -15,7 +15,6 @@ const GreenCheckbox = withStyles({
 
 
 function KFold(props) {
-    const splitMethod = props.splitMethod
     const checked = props.kFold
     const handleCheckChange = (event) => {
         props.handleCheckChange(event)
