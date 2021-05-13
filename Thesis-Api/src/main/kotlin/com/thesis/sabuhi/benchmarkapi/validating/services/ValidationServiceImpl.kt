@@ -48,7 +48,7 @@ class ValidationServiceImpl : ValidationService {
 private fun ValidationDetails.validateFeatureSelection(featureSelection: String) {
     val selections = featureSelection.split(":")
 
-    check( selections.all { it != "def" } ) { "No feature selected" }
+    check( selections.any { it != "def" } ) { "No feature selected" }
 
     if (selections.last() != "def") {
         if (selections.take(3).filter { it == "def" }.size >= 2) throw IllegalArgumentException("Hybrid needs to be selected with at least 2 other features")
