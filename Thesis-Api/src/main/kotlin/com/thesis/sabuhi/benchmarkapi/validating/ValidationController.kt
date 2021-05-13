@@ -63,7 +63,11 @@ class ValidationController(
             sequence,
             hybrid
         )
-        val (rawResults, errors) = validationService.runValidation(details)
+        val (rawResults, errors) = try {
+            validationService.runValidation(details)
+        } catch (ex: RuntimeException) {
+            return ResponseEntity(mapOf("error" to "Please select features to be used"), HttpStatus.BAD_REQUEST)
+        }
         val results = configureResults(details, rawResults.toString())
 
         results?.let {
