@@ -34,7 +34,7 @@ class ValidationServiceImpl : ValidationService {
         val errors = mutableListOf<String>()
         while (stdError.readLine().also { line = it } != null) {
             errors.add(line.toString().trim())
-            log.debug("ERRORS " + line.toString().trim())
+//            log.debug("ERRORS " + line.toString().trim())
         }
         return Pair(rawResults, errors)
     }

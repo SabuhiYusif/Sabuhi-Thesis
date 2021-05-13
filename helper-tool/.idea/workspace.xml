@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0f84f777-d1f6-40ca-a41a-9a022d439b7f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Thesis-Api/debug_test_payload.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../Thesis-Api/debug_test_payload.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Thesis-Api/debug_train_payload.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../Thesis-Api/debug_train_payload.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Thesis-Api/results/0.2_random_merged_xray1620574016116.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Thesis-Api/src/main/kotlin/com/thesis/sabuhi/benchmarkapi/validating/services/ValidationServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../Thesis-Api/src/main/kotlin/com/thesis/sabuhi/benchmarkapi/validating/services/ValidationServiceImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Thesis-Api/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Thesis-Api/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Thesis-Api/test_xrayresults_new.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Thesis-Api/test_xrayresults_new.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Thesis-Api/train_xrayresults_new.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Thesis-Api/train_xrayresults_new.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../thesis-front-end/src/actions/urls.js" beforeDir="false" afterPath="$PROJECT_DIR$/../thesis-front-end/src/actions/urls.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1sA6ZnQqKNeGxtD1PA7JFR5TXCY" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0f84f777-d1f6-40ca-a41a-9a022d439b7f" name="Default Changelist" comment="" />
+      <created>1620303105109</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1620303105109</updated>
+      <workItem from="1620303109224" duration="650000" />
+      <workItem from="1620304833915" duration="3065000" />
+      <workItem from="1620752201370" duration="4870000" />
+      <workItem from="1620923739609" duration="361000" />
+      <workItem from="1620924121987" duration="799000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="680" y="291" width="618" height="522" key="find.popup" timestamp="1620923896839">
+      <screen x="59" y="27" width="1861" height="1053" />
+    </state>
+    <state x="680" y="291" width="618" height="522" key="find.popup/59.27.1861.1053@59.27.1861.1053" timestamp="1620923896839" />
+  </component>
+</project>
