@@ -59,7 +59,7 @@ function PureDataFeatures(props) {
     const [visible, setVisibility] = useState(false);
     const methods = {
         'literal': ["first", "last", "count"],
-        'number': ["first", "last", "min", "max", "mean"]
+        'number': ["first", "last", "count", "min", "max", "mean"]
     }
     const [availableMethods, setAvailableMethods] = useState([])
     const [eventRequest, setEventRequest] = useState({ events: {}, eventDefault: {} })
@@ -169,24 +169,13 @@ function PureDataFeatures(props) {
                     <Typography> Event Default</Typography>
                     <br></br>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <Box pr={1}>
-                            <InputLabel id="label">Attribute Name</InputLabel>
-                            <Select labelId="label" value={defaultAttrName} onChange={handleDefaultAttrName}>
-                                <MenuItem value="default" disabled>
-                                    Not Selected
-                                    </MenuItem>
-                                {Object.keys(events).map((key, value) => (
-                                    <MenuItem value={key}>{key}</MenuItem>
-                                ))}
-                            </Select>
-                        </Box>
                         <Box pl={1}>
                             <InputLabel id="label">Method</InputLabel>
                             <Select labelId="label" value={defaultMethod} onChange={handleDefaultAttrMethod}>
                                 <MenuItem value="default" disabled>
                                     Not Selected
                                     </MenuItem>
-                                {availableMethods.map((key, value) => (
+                                {methods['literal'].map((key, value) => (
                                     <MenuItem value={key}>{key}</MenuItem>
                                 ))}
                             </Select>

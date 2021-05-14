@@ -39,10 +39,8 @@ class PureDataSettingsController {
             }
 
             if (line == "--EVENT DEFAULT--") {
-                body.eventDefault.map { (k, v) ->
-                    out.write("$k|$v")
-                    out.write(newLine)
-                }
+                out.write(body.eventDefault)
+                out.write(newLine)
             }
         }
 
@@ -51,4 +49,4 @@ class PureDataSettingsController {
     }
 }
 
-data class SettingsRequest(val events: Map<String, String>, val eventDefault: Map<String, String>)
+data class SettingsRequest(val events: Map<String, String>, val eventDefault: String)

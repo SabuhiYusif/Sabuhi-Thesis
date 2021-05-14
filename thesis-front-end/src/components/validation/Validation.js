@@ -171,7 +171,7 @@ function Validation() {
 
     const handleFeatureChecks = (event) => {
         let value = event.target.name
-        console.log(IA)
+        console.log(hybrid)
         if (value === "IA") {
             setIA(!IA)
         } else if (value.includes("Declare")) {

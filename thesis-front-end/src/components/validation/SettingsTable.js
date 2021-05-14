@@ -59,7 +59,7 @@ function SettingsTable(props) {
     const alert = useSelector(state => state.alerts.alert);
 
     const handleSubmitClick = () => {
-        const eventDefault = {[props.defaultEventAttr]: props.defaultMethod}
+        const eventDefault = props.defaultMethod
         settings.eventDefault = eventDefault
         dispatch(setSettingsConfiguration(settings))
     }
